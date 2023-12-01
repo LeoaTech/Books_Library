@@ -1,13 +1,18 @@
 import React from 'react'
 import { Link, useLocation, useNavigation } from "react-router-dom";
 import { useActionForm } from "@gadgetinc/react";
+import { api } from '../../api';
 
-const AdminSignIn = () => {
+const AdminSignIn = ({setAdminSignin}) => {
     const {
         register,
         submit,
         formState: { errors, isSubmitting },
-      } = useActionForm(api.user.signIn);
+      } = useActionForm(api.user.signIn,{
+        defaultValues:{
+            user_role: 'admin',
+        }
+      });
   return (
     <form className="custom-form flex justify-center items-center" onSubmit={submit}>
         <h1 className="form-title">Sign in as Admin</h1>
@@ -21,7 +26,7 @@ const AdminSignIn = () => {
             Sign in
           </button>
           <p className="p-4 mt-2">
-            Sign in as User? <Link to="/sign-in" className="text-blue-800">User Login</Link>
+            Sign in as User? <span className="text-blue-800" onClick={()=> setAdminSignin(false)}>User Login</span>
           </p>
         </div>
       </form>

@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useActionForm } from "@gadgetinc/react";
+import { api } from "../../api";
+import GoogleIcon from "../../assets/google.svg";
 
-const SignInForm = () => {
+const SignInForm = ({setAdminSignin}) => {
     const {
         register,
         submit,
@@ -46,9 +48,9 @@ const SignInForm = () => {
         </button>
         <p className="p-4 mt-2">
           Sign in as Admin?{" "}
-          <Link to="/admin-signin" className="text-blue-800">
+          <span className="text-blue-800" onClick={()=>setAdminSignin(true)}>
             admin Login
-          </Link>
+          </span>
         </p>
       </div>
     </form>
