@@ -14,15 +14,19 @@ import {
 import "./App.css";
 import Index from "./routes/index";
 import SignedInPage from "./routes/signed-in";
-import AdminSignedInPage from "./routes/admin-signedin";
 import SignInPage from "./routes/sign-in";
 import SignUpPage from "./routes/sign-up";
-import AdminSignInPage from "./routes/admin-signin";
 import ResetPasswordPage from "./routes/reset-password";
 import VerifyEmailPage from "./routes/verify-email";
 import ChangePassword from "./routes/change-password";
 import ForgotPassword from "./routes/forgot-password";
-import { useUser, useSignOut, useSession, useGet, useFindOne } from "@gadgetinc/react";
+import {
+  useUser,
+  useSignOut,
+  useSession,
+  useGet,
+  useFindOne,
+} from "@gadgetinc/react";
 import { api } from "./api";
 import RootLayout from "./_root/RootLayout";
 import Home from "./_root/pages/Home";
@@ -34,9 +38,8 @@ const App = () => {
     document.title = `Home - ${process.env.GADGET_PUBLIC_APP_SLUG} - Gadget`;
   }, []);
 
-
   const user = useUser();
-  console.log(user, "user")
+  console.log(user, "user");
   const session = useSession(api);
   console.log(session);
   const router = createBrowserRouter(
@@ -59,17 +62,7 @@ const App = () => {
             </SignedInOrRedirect>
           }
         />
-
         // Signed in Page for Admin only
-
-        <Route
-          path="admin-signedin"
-          element={
-            <SignedInOrRedirect>
-              <AdminSignedInPage />
-            </SignedInOrRedirect>
-          }
-        />
         <Route
           path="change-password"
           element={
@@ -95,14 +88,6 @@ const App = () => {
           }
         />
         // Added the Admin Sign in Page router
-        <Route
-          path="admin-signin"
-          element={
-            // <SignedOutOrRedirect>
-            <AdminSignInPage />
-            // </SignedOutOrRedirect>
-          }
-        />
         <Route
           path="sign-up"
           element={
@@ -135,13 +120,11 @@ const Layout = () => {
 };
 
 export const Header = () => {
-
   return (
     <>
       <Navbar />
     </>
   );
-
 };
 
 export default App;
