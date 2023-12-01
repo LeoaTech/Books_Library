@@ -1,45 +1,29 @@
 import { useUser, useSignOut } from "@gadgetinc/react";
-import reactLogo from "../assets/react-logo.svg";
 import { api } from "../api";
-import userIcon from "../assets/default-user-icon.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import Index from "../routes/index";
 
 export default function () {
   const user = useUser(api);
+  const isAdmin = user?.user_role?.find((role) => role === "admin");
+  const navigate = useNavigate();
+  console.log(isAdmin);
 
-  const signOut = useSignOut();
+  useEffect(() => {
+    // Admin will Redirect to Admin Dashboard when Signed-in successfully
+    if (isAdmin != undefined) {
+      navigate("/app/admin");
+    }
+    
+  }, []);
 
-  // Any User can see this page after signed in   
+  // Any User can see this page after signed in
+  return(
+    <>
 
-  return user ? (
-    <div className="h-screen py-40 ">
-      <h1 className="text-3xl bold">Hello Appp</h1>
-      <div className="card-stack">
-        <div className="card user-card">
-          <div className="card-content">
-            <img className="icon" src={user.googleImageUrl ?? userIcon} />
-            <div className="userData">
-              <p>id: {user.id}</p>
-              <p>
-                name: {user.firstName} {user.lastName}
-              </p>
-              <p>
-                email: <a href={`mailto:${user.email}`}>{user.email}</a>
-              </p>
-              <p>created: {user.createdAt.toString()}</p>
-              <p> role:{user.user_role} </p>
-            </div>
-          </div>
-          <div className="sm-description">This data is fetched from the user model</div>
-        </div>
-        <div className="flex-vertical gap-4px">
-          <strong>Actions:</strong>
-          <Link to="/change-password">Change password</Link>
-          <a onClick={signOut}>
-            Sign Out
-          </a>
-        </div>
-      </div>
-    </div>
-  ) : null;
+    {/* Rendered the Home Component or u can redirect to Shop Page to Users */}
+    <Index />
+    </>
+  )
 }
