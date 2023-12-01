@@ -1,0 +1,4 @@
+fragment Filter($session: Session) on Admin {
+  *
+  [where id == $session.adminId]
+}
