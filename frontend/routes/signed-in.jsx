@@ -13,17 +13,19 @@ export default function () {
   useEffect(() => {
     // Admin will Redirect to Admin Dashboard when Signed-in successfully
     if (isAdmin != undefined) {
-      navigate("/app/admin");
+      navigate("/dashboard");
     }
     
   }, []);
 
   // Any User can see this page after signed in
   return(
-    <>
+    <div className="py-40 h-screen m-40">
 
     {/* Rendered the Home Component or u can redirect to Shop Page to Users */}
-    <Index />
-    </>
+    {/* <Index /> */}
+    <h1>Signed in Successfully</h1>
+    <p>Render any Page you want to user redirect after Signed in</p>
+    </div>
   )
 }
