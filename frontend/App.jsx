@@ -3,34 +3,36 @@ import {
   SignedOut,
   SignedOutOrRedirect,
 } from "@gadgetinc/react";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, lazy } from "react";
 import {
   Outlet,
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
 } from "react-router-dom";
 import "./App.css";
 import Index from "./routes/index";
 import SignedInPage from "./routes/signed-in";
 import SignInPage from "./routes/sign-in";
 import SignUpPage from "./routes/sign-up";
-import AdminPage from "./routes/admin";
+import AdminPage from "./routes/customer";
 import ResetPasswordPage from "./routes/reset-password";
 import VerifyEmailPage from "./routes/verify-email";
 import ChangePassword from "./routes/change-password";
 import ForgotPassword from "./routes/forgot-password";
 import { useUser } from "@gadgetinc/react";
-import { api } from "./api";
 import RootLayout from "./_root/RootLayout";
-import Home from "./_root/pages/Home";
 import Routes from "./routes/index";
-import Navbar from "./components/Navbar";
 import AdminDashboard from "./_admin/AdminDashboard";
-import AdminLayout from "./_admin/Layout";
+import CustomerPage from "./routes/customer";
+import routes from "./utiliz";
+import Loader from "./components/Loader/Loading";
+const Dashboard = lazy(() => import("./_admin/pages/Home"));
 
 const App = () => {
+  const user = useUser();
   useEffect(() => {
     document.title = `Home - ${process.env.GADGET_PUBLIC_APP_SLUG} - Gadget`;
   }, []);
@@ -101,7 +103,7 @@ const App = () => {
     createRoutesFromElements(
       <Route>
         // Public Routes for Authentication and Landing Pagesds
-        <Route path="/" element={<RootLayout />}>
+        <Route path="/" element={<CustomerPage />}>
           <Route
             index
             element={
@@ -156,22 +158,44 @@ const App = () => {
           <Route path="verify-email" element={<VerifyEmailPage />} />
         </Route>
         // Admin Routes
-        <Route path="/app/admin" element={<AdminLayout />}>
+        <Route
+          path="/dashboard"
+          element={
+            <SignedInOrRedirect>
+              <AdminDashboard />
+            </SignedInOrRedirect>
+          }
+        >
           <Route
             index
             element={
               <SignedInOrRedirect>
-                <AdminPage />
+                <Dashboard />
               </SignedInOrRedirect>
             }
           />
-          {/* Add other admin routes here */}
+          {routes.map((route, i) => {
+            const { component: Component, path } = route;
+            return (
+              <Route
+                key={i}
+                exact={true}
+                path={`/dashboard${path}`}
+                element={
+                  <Suspense fallback={<Loader />}>
+                    <Component />
+                  </Suspense>
+                }
+                // render={(props) => <Component {...props} />}
+              />
+            );
+          })}
         </Route>
       </Route>
     )
   );
   return (
-    <Suspense fallback={<></>}>
+    <Suspense fallback={<Loader />}>
       <RouterProvider router={router} />
     </Suspense>
   );
@@ -186,11 +210,9 @@ const Layout = () => {
 };
 
 export const Header = () => {
-  return (
-    <>
-      <Navbar />
-    </>
-  );
+  return <>
+  header
+  </>;
 };
 
 export default App;
