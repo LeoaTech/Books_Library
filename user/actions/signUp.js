@@ -6,10 +6,10 @@ import { applyParams, save, ActionOptions, SignUpUserActionContext } from "gadge
 export async function run({ params, record, args, logger, api, session }) {
   applyParams(params, record);
   record.lastSignedIn = new Date();
-  record.emailVerified = true;
-  record.emailVerificationToken = null;
-  record.emailVerificationTokenExpiration = null
-  record.user_role = "admin";
+  // record.emailVerified = true;
+  // record.emailVerificationToken = null;
+  // record.emailVerificationTokenExpiration = null
+  // record.user_role = "admin";
   await save(record);
   // associate the current user record with the active session
   if (record.emailVerified) {
@@ -26,9 +26,9 @@ export async function run({ params, record, args, logger, api, session }) {
  */
 export async function onSuccess({ params, record, logger, api }) {
   // sends the user a verification email if they have not yet verified
-  // if(!record.emailVerified) {
-  //   await api.user.sendVerifyEmail({email: record.email });
-  // }
+  if (!record.emailVerified) {
+    await api.user.sendVerifyEmail({ email: record.email });
+  }
 };
 
 /** @type { ActionOptions } */

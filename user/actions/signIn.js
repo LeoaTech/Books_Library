@@ -7,10 +7,10 @@ export async function run({ params, record, logger, api, session }) {
   console.log(params, "Params at Sign in form")
   applyParams(params, record);
   record.lastSignedIn = new Date();
-  record.emailVerified = true;
-  record.emailVerificationToken = null;
-  record.emailVerificationTokenExpiration = null
-  record.user_role = "admin";
+  // record.emailVerified = true;
+  // record.emailVerificationToken = null;
+  // record.emailVerificationTokenExpiration = null
+  // record.user_role = "admin";
   await save(record);
   console.log(api, "Sign in");
 
