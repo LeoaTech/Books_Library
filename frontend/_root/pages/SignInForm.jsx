@@ -42,13 +42,13 @@ const SignInForm = ({setAdminSignin}) => {
         <button
           disabled={isSubmitting}
           type="submit"
-          className="border border-blue-500 bg-blue-500 text-white rounded-lg py-2 w-1/2 "
+          className="border border-blue-500 bg-graydark text-white rounded-lg py-2 w-1/2 "
         >
           Sign in
         </button>
         <p className="p-4 mt-2">
           Sign in as Admin?{" "}
-          <span className="text-blue-800" onClick={()=>setAdminSignin(true)}>
+          <span className="text-primary" onClick={()=>setAdminSignin(true)}>
             admin Login
           </span>
         </p>
